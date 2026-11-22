@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Фотогалерея — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, serif;
+            color: #29251f;
+            background: #f5f1e9;
+        }
+
+        /* Шапка сайта */
+        header {
+            padding: 24px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #d9d0c2;
+            background: #f5f1e9;
+        }
+
+        .logo {
+            font-size: 24px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        nav a {
+            margin-left: 28px;
+            color: #51483d;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #a16d49;
+        }
+
+        /* Вступительный блок */
+        .hero {
+            padding: 65px 8%;
+            background: #e8dfd0;
+        }
+
+        .hero h1 {
+            margin: 0 0 18px;
+            font-size: 48px;
+            font-weight: normal;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #62594e;
+        }
+
+        /* Основная часть */
+        .section {
+            padding: 55px 8% 80px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid #d9d0c2;
+            padding-bottom: 18px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: normal;
+        }
+
+        .count {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #817568;
+        }
+
+        /* Сетка карточек */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Карточка объекта */
+        .object-card {
+            min-width: 0;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+            border-radius: 4px;
+            overflow: hidden;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .object-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 22px rgba(65, 49, 34, 0.12);
+        }
+
+        /* Единая область фотографий для всех карточек */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #e8dfd0;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        .carousel-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Стрелки переключения */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 50%;
+            background: rgba(41, 37, 31, 0.75);
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+            opacity: 0;
+            transition:
+                opacity 0.2s,
+                background 0.2s;
+        }
+
+        .object-card:hover .carousel-button {
+            opacity: 1;
+        }
+
+        .carousel-button:hover {
+            background: #76533e;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        /* Счётчик фотографий */
+        .photo-counter {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            padding: 5px 9px;
+            border-radius: 3px;
+            background: rgba(41, 37, 31, 0.78);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+        }
+
+        /* Подпись карточки */
+        .object-info {
+            padding: 17px 17px 19px;
+            min-height: 105px;
+        }
+
+        .object-label {
+            margin-bottom: 8px;
+            color: #98775c;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .object-info h3 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: normal;
+            line-height: 1.35;
+            color: #29251f;
+        }
+
+        .object-description {
+            margin: 10px 0 0;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #817568;
+        }
+
+        /* Если фотографий пока нет */
+        .empty {
+            margin-top: 30px;
+            padding: 35px;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+            color: #70665b;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        /* Подвал */
+        footer {
+            padding: 28px 8%;
+            background: #29251f;
+            color: #e8dfd0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        /* Адаптация для небольших экранов */
+        @media (max-width: 700px) {
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0;
+            }
+
+            .hero {
+                padding: 50px 8%;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .section {
+                padding: 40px 6%;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
+            }
+
+            .carousel {
+                height: 145px;
+            }
+
+            .carousel-button {
+                opacity: 1;
+                width: 30px;
+                height: 30px;
+            }
+
+            .object-info {
+                padding: 13px;
+            }
+
+            .object-info h3 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel {
+                height: 190px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ITALIA ARCHIVE</div>
+
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/catalog/">Каталог</a>
+        <a href="/references/">Справочники</a>
+        <a href="/search/">Поиск</a>
+        <a href="/graph/">Граф знаний</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Фотогалерея Италии</h1>
+
+        <p>
+            Архитектурное наследие Италии в фотографиях.
+            Знакомьтесь с выдающимися зданиями, памятниками
+            и сооружениями разных исторических эпох.
+        </p>
+    </section>
+
+    <section class="section">
+
+        <div class="section-heading">
+            <h2>Архитектурные объекты</h2>
+
+            <p class="count">
+                Объектов в галерее: {{ image_groups|length }}
+            </p>
+        </div>
+
+        {% if image_groups %}
+
+            <div class="gallery">
+
+                {% for group in image_groups %}
+
+                    <article class="object-card">
+
+                        <div class="carousel">
+
+                            {% for photo in group.photos %}
+
+                                <div class="carousel-slide
+                                    {% if forloop.first %}active{% endif %}">
+
+                                    {% if photo.media.image_file %}
+                                        <img
+                                            src="{{ photo.media.image_file.url }}"
+                                            alt="{{ group.object.name }}"
+                                        >
+                                    {% elif photo.media.file_url %}
+                                        <img
+                                            src="{{ photo.media.file_url }}"
+                                            alt="{{ group.object.name }}"
+                                        >
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% if group.photos|length > 1 %}
+
+                                <button
+                                    class="carousel-button prev"
+                                    type="button"
+                                    aria-label="Предыдущая фотография">
+                                    &#8249;
+                                </button>
+
+                                <button
+                                    class="carousel-button next"
+                                    type="button"
+                                    aria-label="Следующая фотография">
+                                    &#8250;
+                                </button>
+
+                                <div class="photo-counter">
+                                    1 / {{ group.photos|length }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="object-info">
+
+                            <div class="object-label">
+                                Архитектурный объект
+                            </div>
+
+                            <h3>{{ group.object.name }}</h3>
+
+                            <p class="object-description">
+                                {{ group.photos|length }} фотографий
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+                В галерее пока нет фотографий.
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+<footer>
+    ITALIA ARCHIVE — база знаний по архитектуре Италии
+</footer>
+
+<script>
+    // Переключение фотографий внутри каждой карточки
+    document.querySelectorAll('.object-card').forEach(card => {
+
+        const slides = card.querySelectorAll('.carousel-slide');
+        const prev = card.querySelector('.prev');
+        const next = card.querySelector('.next');
+        const counter = card.querySelector('.photo-counter');
+
+        let current = 0;
+
+        function showSlide(index) {
+
+            slides[current].classList.remove('active');
+
+            current = (index + slides.length) % slides.length;
+
+            slides[current].classList.add('active');
+
+            if (counter) {
+                counter.textContent =
+                    `${current + 1} / ${slides.length}`;
+            }
+        }
+
+        if (prev && next) {
+
+            prev.addEventListener('click', () => {
+                showSlide(current - 1);
+            });
+
+            next.addEventListener('click', () => {
+                showSlide(current + 1);
+            });
+
+        }
+
+    });
+</script>
+
+</body>
+</html>

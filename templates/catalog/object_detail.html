@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ object.name }} — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 35px 24px;
+            background: #f5f0e8;
+            color: #40352c;
+            font-family: Georgia, serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .top-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 22px;
+            border-bottom: 1px solid #d9cbbb;
+        }
+
+        .logo {
+            color: #65452f;
+            font-size: 17px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .back {
+            color: #896746;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .back:hover {
+            color: #493323;
+        }
+
+        .intro {
+            padding: 55px 0 35px;
+        }
+
+        .eyebrow {
+            margin: 0 0 15px;
+            color: #a17b55;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 900px;
+            margin: 0;
+            color: #65452f;
+            font-size: clamp(34px, 5vw, 58px);
+            line-height: 1.12;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            margin: 20px 0 0;
+            color: #887767;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Компактная редакционная фотогалерея */
+        .gallery {
+            margin: 10px 0 65px;
+        }
+
+        .gallery-main {
+            position: relative;
+            width: 100%;
+            height: 540px;
+            overflow: hidden;
+            background: #e9e0d4;
+        }
+
+        .gallery-main img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.25s ease;
+        }
+
+        .gallery-caption {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0 17px;
+            color: #927b65;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 2px 0 9px;
+            scrollbar-width: thin;
+            scrollbar-color: #c6b39f transparent;
+        }
+
+        .gallery-thumbnail {
+            flex: 0 0 105px;
+            height: 75px;
+            padding: 0;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background: #e9e0d4;
+            cursor: pointer;
+            opacity: 0.65;
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+
+        .gallery-thumbnail:hover {
+            opacity: 1;
+        }
+
+        .gallery-thumbnail.active {
+            border-color: #896746;
+            opacity: 1;
+        }
+
+        .gallery-thumbnail img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-photos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            margin-bottom: 55px;
+            background: #e9e0d4;
+            color: #8d7967;
+            font-size: 14px;
+        }
+
+        /* Основная область страницы */
+        .content-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.8fr);
+            gap: 55px;
+            align-items: start;
+        }
+
+        .section {
+            margin-bottom: 42px;
+        }
+
+        .section-label {
+            margin: 0 0 17px;
+            color: #a17b55;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 0 0 18px;
+            color: #65452f;
+            font-size: 27px;
+            font-weight: normal;
+        }
+
+        .description {
+            color: #55483d;
+            font-size: 15px;
+            line-height: 1.95;
+            white-space: pre-line;
+        }
+
+        /* Карточка с основными характеристиками */
+        .facts-card {
+            padding: 27px;
+            background: #eee6da;
+            border: 1px solid #e0d4c5;
+        }
+
+        .facts-title {
+            margin: 0 0 23px;
+            color: #65452f;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .fact {
+            padding: 15px 0;
+            border-bottom: 1px solid #d8cabb;
+        }
+
+        .fact:last-child {
+            border-bottom: none;
+        }
+
+        .fact-name {
+            display: block;
+            margin-bottom: 7px;
+            color: #9a8068;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .fact-value {
+            color: #493b30;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Связанные справочные сведения */
+        .related-section {
+            margin-top: 15px;
+            padding-top: 35px;
+            border-top: 1px solid #d9cbbb;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .related-block {
+            padding: 22px;
+            background: #fffdf9;
+            border: 1px solid #e8ded2;
+        }
+
+        .related-block h3 {
+            margin: 0 0 16px;
+            color: #8e6847;
+            font-size: 17px;
+            font-weight: normal;
+        }
+
+        .related-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .related-list li {
+            padding: 9px 0;
+            border-bottom: 1px solid #eee7df;
+            color: #514438;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .related-list li:last-child {
+            border-bottom: none;
+        }
+
+        .related-note {
+            color: #9a8068;
+            font-size: 11px;
+        }
+
+        .empty {
+            color: #a08d7b;
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 65px;
+            padding: 25px 0 10px;
+            border-top: 1px solid #d9cbbb;
+            color: #9b8978;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .intro {
+                padding: 38px 0 25px;
+            }
+
+            .gallery {
+                margin-bottom: 42px;
+            }
+
+            .gallery-main {
+                height: 350px;
+            }
+
+            .gallery-thumbnail {
+                flex-basis: 85px;
+                height: 65px;
+            }
+
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .facts-card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .logo {
+                font-size: 14px;
+            }
+
+            .back {
+                font-size: 11px;
+            }
+
+            .gallery-main {
+                height: 260px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <header class="top-line">
+        <a class="logo" href="/">ITALIA ARCHIVE</a>
+
+        <a class="back" href="{% url 'catalog:catalog_list' %}">
+            ← Вернуться в каталог
+        </a>
+    </header>
+
+    <main>
+
+        <!-- Название и краткая информация об объекте -->
+        <section class="intro">
+            <p class="eyebrow">Архитектурное наследие Италии</p>
+
+            <h1>{{ object.name }}</h1>
+
+            <p class="subtitle">
+                {{ object.get_object_type_display }}
+                {% if object.year_start %}
+                    · {{ object.year_start }}
+                    {% if object.year_end %} — {{ object.year_end }}{% endif %}
+                {% endif %}
+            </p>
+        </section>
+
+        <!-- Основная фотография и компактная лента миниатюр -->
+        {% if object.image_links %}
+            <section class="gallery">
+
+                {% with first_image=object.image_links.0 %}
+                    <div class="gallery-main">
+                        {% with first_image=object.image_links.0 %}
+    <div class="gallery-main">
+        <img
+            id="main-gallery-image"
+            {% if first_image.content_item.media.image_file %}
+                src="{{ first_image.content_item.media.image_file.url }}"
+            {% else %}
+                src="{{ first_image.content_item.media.file_url }}"
+            {% endif %}
+            alt="{{ first_image.content_item.media.alt_text|default:object.name }}"
+        >
+    </div>
+{% endwith %}
+                    </div>
+                {% endwith %}
+
+                <div class="gallery-caption">
+                    <span>ФОТОГАЛЕРЕЯ</span>
+                    <span>{{ object.image_links|length }} ФОТОГРАФИЙ</span>
+                </div>
+
+                <div class="gallery-thumbnails">
+                    {% for image_link in object.image_links %}
+                        <button
+                            type="button"
+                            class="gallery-thumbnail {% if forloop.first %}active{% endif %}"
+                            data-alt="{{ image_link.content_item.media.alt_text|default:object.name }}"
+                            {% if image_link.content_item.media.image_file %}
+                                data-image="{{ image_link.content_item.media.image_file.url }}"
+                            {% else %}
+                                data-image="{{ image_link.content_item.media.file_url }}"
+                            {% endif %}
+                            aria-label="Показать фотографию {{ forloop.counter }}"
+                        >
+                            {% if image_link.content_item.media.image_file %}
+                                <img
+                                    src="{{ image_link.content_item.media.image_file.url }}"
+                                    alt=""
+                                    loading="lazy"
+                                >
+                            {% else %}
+                                <img
+                                    src="{{ image_link.content_item.media.file_url }}"
+                                    alt=""
+                                    loading="lazy"
+                                >
+                            {% endif %}
+                        </button>
+                    {% endfor %}
+                </div>
+
+            </section>
+        {% else %}
+            <div class="no-photos">
+                Фотографии этого объекта пока не добавлены
+            </div>
+        {% endif %}
+
+        <!-- Описание и основные характеристики -->
+        <div class="content-layout">
+
+            <section class="section">
+                <p class="section-label">История и архитектура</p>
+                <h2>Об объекте</h2>
+
+                <div class="description">
+                    {{ object.description|default:"Описание пока не добавлено." }}
+                </div>
+
+                {% if object.date_note %}
+                    <p class="description">{{ object.date_note }}</p>
+                {% endif %}
+            </section>
+
+            <aside class="facts-card">
+                <h2 class="facts-title">Основные сведения</h2>
+
+                <div class="fact">
+                    <span class="fact-name">Тип объекта</span>
+                    <div class="fact-value">
+                        {{ object.get_object_type_display }}
+                    </div>
+                </div>
+
+                <div class="fact">
+                    <span class="fact-name">Адрес</span>
+                    <div class="fact-value">
+                        {{ object.address|default:"Не указан" }}
+                    </div>
+                </div>
+
+                <div class="fact">
+                    <span class="fact-name">Начало строительства</span>
+                    <div class="fact-value">
+                        {{ object.year_start|default:"Неизвестно" }}
+                    </div>
+                </div>
+
+                <div class="fact">
+                    <span class="fact-name">Окончание строительства</span>
+                    <div class="fact-value">
+                        {{ object.year_end|default:"Неизвестно" }}
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+        <!-- Связи с элементами базы знаний -->
+        <section class="related-section">
+            <p class="section-label">Связи в базе знаний</p>
+            <h2>Контекст и особенности</h2>
+
+            <div class="related-grid">
+
+                <div class="related-block">
+                    <h3>Города</h3>
+
+                    <ul class="related-list">
+                        {% for link in object.city_links.all %}
+                            <li>{{ link.city.name }}</li>
+                        {% empty %}
+                            <li class="empty">Город не указан.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="related-block">
+                    <h3>Архитектурные стили</h3>
+
+                    <ul class="related-list">
+                        {% for link in object.style_links.all %}
+                            <li>
+                                {{ link.style.name }}
+                                {% if link.is_primary %}
+                                    <span class="related-note"> · основной стиль</span>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li class="empty">Стиль не указан.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="related-block">
+                    <h3>Исторические эпохи</h3>
+
+                    <ul class="related-list">
+                        {% for link in object.epoch_links.all %}
+                            <li>
+                                {{ link.epoch.name }}
+                                {% if link.is_primary %}
+                                    <span class="related-note"> · основная эпоха</span>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li class="empty">Эпоха не указана.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="related-block">
+                    <h3>Архитекторы</h3>
+
+                    <ul class="related-list">
+                        {% for link in object.architect_links.all %}
+                            <li>
+                                {{ link.architect.full_name }}
+                                {% if link.role %}
+                                    <span class="related-note"> — {{ link.role }}</span>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li class="empty">Архитекторы не указаны.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        ITALIA ARCHIVE · БАЗА ЗНАНИЙ ОБ АРХИТЕКТУРЕ ИТАЛИИ
+    </footer>
+
+</div>
+
+<!-- Переключение основной фотографии при выборе миниатюры -->
+<script>
+    const mainImage = document.getElementById('main-gallery-image');
+    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+            const imageUrl = thumbnail.dataset.image;
+            const imageAlt = thumbnail.dataset.alt;
+
+            mainImage.src = imageUrl;
+            mainImage.alt = imageAlt;
+
+            thumbnails.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            thumbnail.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

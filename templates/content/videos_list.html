@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видео — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f5f1e9;
+            color: #29251f;
+            font-family: Georgia, serif;
+        }
+
+        header {
+            padding: 24px 8%;
+            border-bottom: 1px solid #d9d0c2;
+        }
+
+        header a {
+            color: #51483d;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            flex: 1;
+            padding: 50px 8%;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: normal;
+        }
+
+        .intro {
+            color: #70665b;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .videos-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 35px;
+        }
+
+        .video-card {
+            padding: 24px;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+        }
+
+        .video-card h2 {
+            color: #65452f;
+            font-size: 23px;
+            font-weight: normal;
+        }
+
+        .video-card p {
+            color: #70665b;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .video-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #946b45;
+            font-family: Arial, sans-serif;
+            text-decoration: none;
+        }
+
+        .video-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+            color: #70665b;
+            line-height: 1.7;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 35px;
+            color: #946b45;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        footer {
+            padding: 28px 8%;
+            background: #29251f;
+            color: #e8dfd0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="/">ITALIA ARCHIVE</a>
+</header>
+
+<main>
+    <h1>Видеоматериалы</h1>
+
+    <p class="intro">
+        Видеоматериалы, посвящённые архитектурным объектам Италии,
+        их истории, особенностям строительства и архитектурному наследию.
+    </p>
+
+    {% if videos %}
+        <div class="videos-list">
+            {% for video in videos %}
+                <article class="video-card">
+                    <h2>{{ video.title }}</h2>
+
+                    {% if video.summary %}
+                        <p>{{ video.summary }}</p>
+                    {% endif %}
+
+                    {% if video.media.caption %}
+                        <p>{{ video.media.caption }}</p>
+                    {% endif %}
+
+                    {% if video.media.file_url %}
+                        <a
+                            class="video-link"
+                            href="{{ video.media.file_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Смотреть видео →
+                        </a>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty">
+            Опубликованные видеоматериалы пока не добавлены.
+        </div>
+    {% endif %}
+
+    <a class="back" href="{% url 'content:content_home' %}">
+        ← Вернуться к материалам
+    </a>
+</main>
+
+<footer>
+    ITALIA ARCHIVE — база знаний по архитектуре Италии
+</footer>
+
+</body>
+</html>

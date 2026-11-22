@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочники — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f1e9;
+            color: #29251f;
+            font-family: Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .references-page {
+            min-height: 85vh;
+            padding: 55px 8% 90px;
+        }
+
+        .references-header {
+            padding-bottom: 22px;
+            border-bottom: 1px solid #d8d0c4;
+        }
+
+        .references-header a {
+            font-family: Georgia, serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .references-intro {
+            max-width: 850px;
+            margin: 85px 0 65px;
+        }
+
+        .references-eyebrow {
+            margin-bottom: 22px;
+            color: #8b7965;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .references-intro h1 {
+            margin: 0 0 25px;
+            font-family: Georgia, serif;
+            font-size: clamp(44px, 7vw, 82px);
+            font-weight: normal;
+            line-height: 1.05;
+        }
+
+        .references-intro p {
+            max-width: 600px;
+            color: #756d63;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .references-list {
+            border-top: 1px solid #d8d0c4;
+        }
+
+        .reference-item {
+            display: grid;
+            grid-template-columns: 65px 1fr 180px 30px;
+            align-items: center;
+            gap: 20px;
+            padding: 30px 5px;
+            border-bottom: 1px solid #d8d0c4;
+            transition: padding 0.25s ease;
+        }
+
+        .reference-item:hover {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .reference-number {
+            color: #a39482;
+            font-family: Georgia, serif;
+            font-size: 16px;
+        }
+
+        .reference-name {
+            font-family: Georgia, serif;
+            font-size: clamp(23px, 3vw, 34px);
+        }
+
+        .reference-count {
+            color: #8b8175;
+            font-size: 13px;
+        }
+
+        .reference-arrow {
+            color: #8b7965;
+            font-size: 23px;
+        }
+
+        .references-footer {
+            padding: 25px 8%;
+            border-top: 1px solid #d8d0c4;
+            color: #81776b;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 650px) {
+            .references-page {
+                padding: 35px 6% 65px;
+            }
+
+            .references-intro {
+                margin: 65px 0 45px;
+            }
+
+            .reference-item {
+                grid-template-columns: 35px 1fr 25px;
+                gap: 12px;
+                padding: 24px 0;
+            }
+
+            .reference-count {
+                display: none;
+            }
+
+            .reference-name {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="references-page">
+
+    <header class="references-header">
+        <a href="/">ITALIA ARCHIVE</a>
+    </header>
+
+    <section class="references-intro">
+        <div class="references-eyebrow">ITALIA ARCHIVE · БАЗА ЗНАНИЙ</div>
+
+        <h1>Справочная<br>библиотека</h1>
+
+        <p>
+            Откройте для себя города, архитектурные направления,
+            исторические эпохи и мастеров, сформировавших
+            архитектурный облик Италии.
+        </p>
+    </section>
+
+    <section class="references-list">
+
+        <a href="{% url 'references:cities_list' %}" class="reference-item">
+            <span class="reference-number">01</span>
+            <span class="reference-name">Города Италии</span>
+            <span class="reference-count">14 городов</span>
+            <span class="reference-arrow">↗</span>
+        </a>
+
+        <a href="{% url 'references:styles_list' %}" class="reference-item">
+            <span class="reference-number">02</span>
+            <span class="reference-name">Архитектурные стили</span>
+            <span class="reference-count">13 направлений</span>
+            <span class="reference-arrow">↗</span>
+        </a>
+
+        <a href="{% url 'references:epochs_list' %}" class="reference-item">
+            <span class="reference-number">03</span>
+            <span class="reference-name">Исторические эпохи</span>
+            <span class="reference-count">10 эпох</span>
+            <span class="reference-arrow">↗</span>
+        </a>
+
+        <a href="{% url 'references:architects_list' %}" class="reference-item">
+            <span class="reference-number">04</span>
+            <span class="reference-name">Архитекторы</span>
+            <span class="reference-count">21 мастер</span>
+            <span class="reference-arrow">↗</span>
+        </a>
+
+    </section>
+
+</main>
+
+<footer class="references-footer">
+    ITALIA ARCHIVE · БАЗА ЗНАНИЙ ОБ АРХИТЕКТУРЕ ИТАЛИИ
+</footer>
+
+</body>
+</html>

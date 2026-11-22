@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архитектурные стили — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f5f1e9;
+            color: #29251f;
+            font-family: Georgia, serif;
+        }
+
+        header {
+            padding: 24px 8%;
+            border-bottom: 1px solid #d9d0c2;
+        }
+
+        header a {
+            color: #51483d;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            flex: 1;
+            padding: 50px 8%;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: normal;
+        }
+
+        .back {
+            color: #946b45;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .count {
+            margin: 25px 0;
+            color: #76533e;
+            font-family: Arial, sans-serif;
+        }
+
+        .styles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .style-card {
+            padding: 25px;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+        }
+
+        .style-card h2 {
+            margin-top: 0;
+            color: #65452f;
+            font-size: 23px;
+            font-weight: normal;
+        }
+
+        .style-card p {
+            color: #70665b;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        footer {
+            padding: 28px 8%;
+            background: #29251f;
+            color: #e8dfd0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="/">ITALIA ARCHIVE</a>
+</header>
+
+<main>
+    <a class="back" href="{% url 'references:references_home' %}">
+        ← Назад к справочникам
+    </a>
+
+    <h1>Архитектурные стили</h1>
+
+    <p class="count">
+        Всего стилей: {{ styles|length }}
+    </p>
+
+    <div class="styles">
+        {% for style in styles %}
+            <article class="style-card">
+                <h2>{{ style.name }}</h2>
+
+                {% if style.period_start or style.period_end %}
+                    <p>
+                        <strong>Период:</strong>
+                        {% if style.period_start %}{{ style.period_start }}{% endif %}
+                        {% if style.period_start and style.period_end %} — {% endif %}
+                        {% if style.period_end %}{{ style.period_end }}{% endif %}
+                    </p>
+                {% endif %}
+
+                {% if style.parent_style %}
+                    <p>
+                        <strong>Родительский стиль:</strong>
+                        {{ style.parent_style.name }}
+                    </p>
+                {% endif %}
+
+                {% if style.description %}
+                    <p>{{ style.description }}</p>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>Архитектурные стили пока не добавлены.</p>
+        {% endfor %}
+    </div>
+</main>
+
+<footer>
+    ITALIA ARCHIVE — база знаний по архитектуре Италии
+</footer>
+
+</body>
+</html>

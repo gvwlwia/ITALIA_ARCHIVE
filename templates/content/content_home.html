@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Материалы — ITALIA ARCHIVE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f5f1e9;
+            color: #29251f;
+            font-family: Georgia, serif;
+        }
+
+        header {
+            padding: 24px 8%;
+            border-bottom: 1px solid #d9d0c2;
+        }
+
+        header a {
+            color: #51483d;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            flex: 1;
+            padding: 50px 8%;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: normal;
+        }
+
+        .intro {
+            max-width: 750px;
+            color: #70665b;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .category-card {
+            display: block;
+            padding: 28px;
+            background: #fffdf9;
+            border: 1px solid #e4ddd2;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s;
+        }
+
+        .category-card:hover {
+            background: #f3ede3;
+        }
+
+        .category-card h2 {
+            margin-top: 0;
+            color: #65452f;
+            font-size: 25px;
+            font-weight: normal;
+        }
+
+        .category-card p {
+            color: #70665b;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .count {
+            margin-top: 20px;
+            color: #946b45 !important;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 35px;
+            color: #946b45;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        footer {
+            padding: 28px 8%;
+            background: #29251f;
+            color: #e8dfd0;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="/">ITALIA ARCHIVE</a>
+</header>
+
+<main>
+    <h1>Материалы</h1>
+
+    <p class="intro">
+        Информационные материалы базы знаний ITALIA ARCHIVE.
+        Здесь собраны статьи, изображения и видеоматериалы,
+        посвящённые архитектуре Италии, её памятникам,
+        архитектурным стилям и выдающимся мастерам.
+    </p>
+
+    <div class="categories">
+
+        <a href="{% url 'content:articles_list' %}" class="category-card">
+            <h2>Статьи</h2>
+            <p>
+                Текстовые материалы об архитектурных объектах,
+                исторических периодах и архитектурных направлениях Италии.
+            </p>
+            <p class="count">
+                Опубликовано: {{ articles_count }}
+            </p>
+        </a>
+
+        <a href="{% url 'content:images_list' %}" class="category-card">
+    <h2>Изображения</h2>
+    <p>
+        Фотографии архитектурных памятников,
+        зданий, сооружений и деталей их оформления.
+    </p>
+    <p class="count">
+        Опубликовано: {{ images_count }}
+    </p>
+</a>
+
+        <a href="{% url 'content:videos_list' %}" class="category-card">
+    <h2>Видео</h2>
+    <p>
+        Видеоматериалы, посвящённые архитектурным объектам,
+        их истории и особенностям.
+    </p>
+    <p class="count">
+        Опубликовано: {{ videos_count }}
+    </p>
+</a>
+
+    </div>
+
+    <a class="back" href="/">
+        ← Вернуться на главную страницу
+    </a>
+</main>
+
+<footer>
+    ITALIA ARCHIVE — база знаний по архитектуре Италии
+</footer>
+
+</body>
+</html>
